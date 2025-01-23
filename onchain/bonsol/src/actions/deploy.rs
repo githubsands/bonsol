@@ -66,32 +66,23 @@ pub fn process_deploy_v1(
     }
     let dp = dp.unwrap();
 
-    let data = check_owner_instruction(dp)?;
-    check_accounts_deployment(&accounts[..=4], data)?;
+    let owner = dp
+        .owner()
+        .map(|b| b.bytes())
+        .ok_or(ChannelError::InvalidInstructionNoOwnerGiven)?;
 
-    if let Some(imageid) = dp.image_id() {
-        let deployment_bump = Some(check_pda(
-            &deployment_address_seeds(&img_id_hash(imageid)),
-            &accounts[0].key, // deployer account key
-            ChannelError::InvalidDeploymentAccountPDA,
-        )?);
-    } else {
-        return Err(ChannelError::InvalidInstructionNoImageIDGiven);
-    }
+    check_accounts_deployment(&accounts[..=4], owner)?;
+
     if let Some(imageid) = dp.image_id() {
         let imghash = img_id_hash(imageid);
         let mut seeds = deployment_address_seeds(&imghash);
-
-        let b = check_pda(
+        let b = &[check_pda(
             &deployment_address_seeds(&img_id_hash(imageid)),
             accounts[0].key,
             ChannelError::InvalidDeploymentAccountPDA,
-        )?;
-        let bs = &[b];
-        seeds.push(bs);
+        )?];
+        seeds.push(b);
         let dp_bytes = ix.deploy_v1().unwrap().bytes();
-
-        let space = dp_bytes.len() as u64;
 
         save_structure(
             &accounts[0],
@@ -103,5 +94,5 @@ pub fn process_deploy_v1(
         )?;
         return Ok(());
     }
-    return Err(ChannelError::InvalidInstructionNoImageIDGiven);
+    Err(ChannelError::InvalidInstructionNoImageIDGiven)
 }
