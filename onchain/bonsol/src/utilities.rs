@@ -52,12 +52,12 @@ pub fn transfer_owned(
     Ok(())
 }
 
-pub fn save_structure<'a>(
-    account: &'a AccountInfo<'a>,
+pub fn save_structure<'a, 'info>(
+    account: &'a AccountInfo<'info>,
     seeds: &[&[u8]],
     bytes: &[u8],
-    payer: &'a AccountInfo<'a>,
-    system: &'a AccountInfo<'a>,
+    payer: &'a AccountInfo<'info>,
+    system: &'a AccountInfo<'info>,
     additional_lamports: Option<u64>,
 ) -> Result<(), ChannelError> {
     let space = bytes.len() as u64;
@@ -66,18 +66,18 @@ pub fn save_structure<'a>(
     Ok(())
 }
 
-pub fn create_program_account<'a>(
-    account: &'a AccountInfo<'a>,
+pub fn create_program_account<'a, 'info>(
+    account: &'a AccountInfo<'info>,
     seeds: &[&[u8]],
     space: u64,
-    payer: &'a AccountInfo<'a>,
-    system: &'a AccountInfo<'a>,
+    payer: &'a AccountInfo<'info>,
+    system: &'a AccountInfo<'info>,
     additional_lamports: Option<u64>,
 ) -> Result<(), ChannelError> {
     let lamports =
         Rent::default().minimum_balance(space as usize) + additional_lamports.unwrap_or(0);
     let create_pda_account_ix =
-        system_instruction::create_account(&payer.key, &account.key, lamports, space, &crate::id());
+        system_instruction::create_account(payer.key, account.key, lamports, space, &crate::id());
     invoke_signed(
         &create_pda_account_ix,
         &[account.clone(), payer.clone(), system.clone()],

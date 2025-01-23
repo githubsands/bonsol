@@ -3,10 +3,10 @@ use bonsol_interface::bonsol_schema::{parse_ix_data, ChannelInstructionIxType};
 use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
 
 #[inline]
-pub fn program<'a>(
+pub fn program(
     _program_id: &Pubkey,
-    accounts: &'a [AccountInfo<'a>],
-    instruction_data: &'a [u8],
+    accounts: &[AccountInfo],
+    instruction_data: &[u8],
 ) -> ProgramResult {
     let ix = parse_ix_data(instruction_data).map_err(|_| ChannelError::InvalidInstructionParse)?;
     match ix.ix_type() {

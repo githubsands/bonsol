@@ -8,6 +8,7 @@ use bonsol_interface::{
 };
 use solana_program::{account_info::AccountInfo, system_program};
 
+#[allow(dead_code)]
 pub struct InputSetAccounts<'a, 'b> {
     pub payer: &'a AccountInfo<'a>,
     pub input_set: &'a AccountInfo<'a>,
@@ -17,6 +18,7 @@ pub struct InputSetAccounts<'a, 'b> {
     pub input_set_id: &'b str,
 }
 
+#[allow(dead_code)]
 impl<'a, 'b> InputSetAccounts<'a, 'b> {
     fn from_instruction(
         accounts: &'a [AccountInfo<'a>],
@@ -54,6 +56,7 @@ impl<'a, 'b> InputSetAccounts<'a, 'b> {
     }
 }
 
+#[allow(dead_code)]
 pub fn process_input_set_v1<'a>(
     accounts: &'a [AccountInfo<'a>],
     ix: ChannelInstruction<'a>,
