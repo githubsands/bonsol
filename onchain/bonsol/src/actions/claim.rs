@@ -19,6 +19,7 @@ use crate::{assertions::*, error::ChannelError, utilities::*};
 // 4. payer
 // 5. system_program
 
+#[inline(always)]
 fn check_accounts_claim(accounts: &[AccountInfo]) -> Result<(), ChannelError> {
     check_writable_signer(&accounts[4], ChannelError::InvalidPayerAccount)?;
     check_writable_signer(&accounts[3], ChannelError::InvalidClaimerAccount)?;
@@ -41,6 +42,7 @@ pub struct Claim<'a> {
     expired: bool,
 }
 
+#[inline(always)]
 pub fn build_claim<'a>(
     accounts: &[AccountInfo],
     data: &ClaimV1<'a>,

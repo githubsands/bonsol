@@ -15,12 +15,7 @@ use solana_program::{account_info::AccountInfo, msg, system_program};
 // 3: system_program
 // 4++: extra_accountss
 
-pub struct DeploymentInstance<'a> {
-    pub imageid: &'a str,
-    pub image_checksum: &'a [u8],
-    pub deployment_bump: &'a [u8; 1],
-}
-
+#[inline(always)]
 pub fn check_owner_instruction(data: DeployV1) -> Result<&[u8], ChannelError> {
     let owner = data
         .owner()
@@ -29,6 +24,7 @@ pub fn check_owner_instruction(data: DeployV1) -> Result<&[u8], ChannelError> {
     Ok(owner)
 }
 
+#[inline(always)]
 pub fn check_accounts_deployment(
     accounts: &[AccountInfo],
     owner: &[u8],

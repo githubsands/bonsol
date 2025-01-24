@@ -19,7 +19,7 @@ use solana_program::{account_info::AccountInfo, bpf_loader_upgradeable, system_p
 // 5. system_program
 // 6. extra_accounts
 
-#[inline]
+#[inline(always)]
 fn check_execution_accounts(accounts: &[AccountInfo]) -> Result<(), ChannelError> {
     check_writable_signer(&accounts[0], ChannelError::InvalidRequesterAccount)?;
     check_writable_signer(&accounts[1], ChannelError::InvalidPayerAccount)?;
@@ -70,7 +70,7 @@ fn validate_er(er: &ExecutionRequestV1) -> Result<(), ChannelError> {
     Ok(())
 }
 
-#[inline]
+#[inline(always)]
 fn validate_inputs(
     er: &ExecutionRequestV1,
     required_input_size: usize,
