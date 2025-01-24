@@ -113,6 +113,8 @@ pub fn process_execute_v1(
 
     let required_input_size = deploy.inputs().map(|x| x.len()).unwrap_or(1);
 
+    validate_er(&er)?;
+
     validate_inputs(&er, required_input_size)?;
 
     let exec_bump = [check_pda(
