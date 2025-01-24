@@ -10,6 +10,10 @@ pub enum ChannelError {
     #[error("Invalid Instruction")]
     InvalidInstruction,
     #[error("Invalid Input Data")]
+    InvalidInstructionNoImageIDGiven,
+    #[error("Invalid instruction no image id given")]
+    InvalidInstructionNoOwnerGiven,
+    #[error("Invalid instruction no owner given")]
     InvalidInputs,
     #[error("Invalid Input Length")]
     InvalidInputLength,
